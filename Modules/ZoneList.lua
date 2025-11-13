@@ -302,7 +302,7 @@ function ZoneList:GetZoneName(continent, zoneID, third, fourth)
         return live or "Unknown Zone"
     end
 
-    -- ✅ NEW PRIORITY:
+    -- NEW PRIORITY:
     -- 1) Trust the client API (GetMapZones) first
     local zones = GetMapZonesArray(c)
     if zones and zones[z] then
