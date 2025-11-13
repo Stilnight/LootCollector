@@ -373,12 +373,6 @@ end
 -- Initialization
 ----------------------------------------------------------------
 
-function ZoneList
-
-----------------------------------------------------------------
--- Initialization
-----------------------------------------------------------------
-
 function ZoneList:OnInitialize()
     if self.ZoneRelationships then
         self.ParentToSubzones = self.ParentToSubzones or {}
