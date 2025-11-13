@@ -374,3 +374,57 @@ end
 ----------------------------------------------------------------
 
 function ZoneList
+
+----------------------------------------------------------------
+-- Initialization
+----------------------------------------------------------------
+
+function ZoneList:OnInitialize()
+    if self.ZoneRelationships then
+        self.ParentToSubzones = self.ParentToSubzones or {}
+        wipe(self.ParentToSubzones)
+
+        local count = 0
+        for childID, data in pairs(self.ZoneRelationships) do
+            if data and data.parentMapID then
+                local parentID = data.parentMapID
+                if not self.ParentToSubzones[parentID] then
+                    self.ParentToSubzones[parentID] = {}
+                end
+                table.insert(self.ParentToSubzones[parentID], childID)
+                count = count + 1
+            end
+        end
+    end
+
+    if self.RebuildInstanceNameIndexPreferLowest then
+        self:RebuildInstanceNameIndexPreferLowest()
+    end
+
+    self.IZ_TO_ABBREVIATIONS = {}
+    local count = 0
+    if self.InstanceZones and self.ZONEABBREVIATIONS then
+        for iz, instanceName in pairs(self.InstanceZones) do
+            if self.ZONEABBREVIATIONS[instanceName] then
+                self.IZ_TO_ABBREVIATIONS[iz] = self.ZONEABBREVIATIONS[instanceName]
+                count = count + 1
+            end
+        end
+    end
+
+    -- Build map ID lookup tables slightly delayed
+    if C_Timer and C_Timer.After then
+        C_Timer.After(1, function()
+            if self.BuildMapIDLookups then
+                self:BuildMapIDLookups()
+            end
+        end)
+    else
+        -- Fallback: build immediately if C_Timer is not available
+        if self.BuildMapIDLookups then
+            self:BuildMapIDLookups()
+        end
+    end
+end
+
+return ZoneList
