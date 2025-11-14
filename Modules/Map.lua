@@ -1188,14 +1188,6 @@ local function GetCurrentMinimapShape()
   return ValidMinimapShapes["SQUARE"]
 end
 
-local function GetRotateMinimapFacing()
-  local rotate = GetCVar and GetCVar("rotateMinimap")
-  if rotate == "1" and MiniMapCompassRing and MiniMapCompassRing.GetFacing then
-    return MiniMapCompassRing:GetFacing() or 0
-  end
-  return 0
-end
-
 function Map:UpdateMinimapPinSizes()
     local pinSize = (L.db and L.db.profile.mapFilters.minimapPinSize) or 10
     for _, pin in ipairs(self._mmPins) do
